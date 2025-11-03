@@ -1,73 +1,93 @@
-# React + TypeScript + Vite
+# Proyecto Gestión Crediticia – Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este repositorio contiene la base del frontend para la Plataforma de Evaluación Crediticia. Está construido con **React + TypeScript + Vite** e implementa el módulo de autenticación, dejando preparada la estructura para que el resto del equipo desarrolle los módulos siguientes.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🗂️ Estructura de carpetas
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── assets/
+├── components/
+├── context/
+├── data/
+├── hooks/
+├── pages/
+├── styles/
+├── types/
+├── App.tsx
+├── App.css
+├── index.css
+└── main.tsx
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### `src/assets/`
+Contiene recursos estáticos (imágenes, íconos, etc.). Actualmente solo se incluye `react.svg`, pero aquí deben colocarse los assets que cualquiera de los módulos necesite.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### `src/components/`
+Componentes reutilizables y desacoplados del resto de la aplicación. El archivo `ProtectedRoute.tsx` encapsula la lógica para proteger rutas según el estado de autenticación. El archivo `index.ts` exporta los componentes públicos, lo que facilita importar desde `./components` sin rutas largas.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### `src/context/`
+Contextos de React que manejan estado global. `AuthContext.tsx` resuelve la autenticación (login, registro, logout) y expone `useAuth()` para que cualquier página o componente pueda consumir el contexto sin prop drilling.
+
+### `src/data/`
+Datos mock y cualquier fuente de información temporal usada durante el desarrollo sin backend. `mockData.ts` define usuarios, clientes, solicitudes y evaluaciones para simular la lógica de negocio.
+
+### `src/hooks/`
+Espacio reservado para **custom hooks** compartidos entre módulos. Actualmente está vacío; el equipo puede agregar aquí hooks como `useSolicitudes`, `useClientes`, etc., cuando los implementen.
+
+### `src/pages/`
+Componentes de página que representan cada ruta de la aplicación: `Login`, `Register`, `RecoverPassword` y `Dashboard`. El archivo `index.ts` centraliza las exportaciones de todas las páginas.
+
+### `src/styles/`
+Estilos globales y específicos. Dentro de `styles/pages/` se encuentran `Auth.css` y `Dashboard.css`, responsables de los estilos de las páginas de autenticación y del dashboard. Si se agregan nuevos módulos, es recomendable crear sus estilos aquí o migrar a un framework como Tailwind si el equipo lo requiere.
+
+### `src/types/`
+Definiciones de tipos e interfaces en TypeScript (`index.ts`). Aquí se modelan las entidades del dominio (Usuarios, Clientes, Solicitudes, Evaluaciones) y los contratos del AuthContext y formularios.
+
+### Archivos raíz
+- **`App.tsx`**: Configura el router, las rutas públicas y protegidas, y envuelve la aplicación con `AuthProvider`.
+- **`App.css` / `index.css`**: Estilos globales básicos (reset y tipografía).
+- **`main.tsx`**: Punto de entrada que monta la aplicación en el DOM.
+
+---
+
+## 📦 Dependencias clave
+
+- **React 19** y **React DOM**
+- **TypeScript**
+- **Vite** (bundler y dev server)
+- **react-router-dom** para enrutamiento
+
+
+## 🚀 Scripts disponibles
+
+```bash
+npm install        # Instala dependencias
+npm run dev        # Inicia el servidor de desarrollo (http://localhost:5173)
+npm run build      # Genera build de producción
+npm run preview    # Previsualiza el build generado
 ```
+
+---
+
+## 🔐 Módulo de autenticación (implementado)
+
+- Login con verificación de credenciales mock
+- Registro de nuevos asesores (autologin después del registro)
+- Recuperación de contraseña (simulada)
+- Dashboard protegido y control de sesión con `localStorage`
+- Manejo de roles (Analista / Asesor) listo para expandirse
+
+Referencias útiles:
+- **`CREDENCIALES.md`**: Credenciales de prueba y notas rápidas para QA.
+---
+
+## ✅ Próximos pasos
+
+1. **Agregar nuevos contextos/data** para módulos de solicitudes, clientes y evaluaciones según el diagrama ER.
+2. **Mover la lógica compartida** a hooks reutilizables (`src/hooks/`).
+3. **Crear nuevas páginas** dentro de `src/pages/` y sus estilos correspondientes en `src/styles/`.
+4. **Reemplazar los datos mock** por peticiones reales cuando esté listo el backend.
+
