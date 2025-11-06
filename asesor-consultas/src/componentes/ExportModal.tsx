@@ -1,32 +1,33 @@
 // src/componentes/ExportModal.tsx
 import React, { useState } from 'react';
-import type {  ExportFilter } from '../types';
+import type {  ExportFilter, ExportFormat } from '../types';
 
 interface ExportModalProps {
     onClose: () => void;
-    onExportar: (filtro: ExportFilter) => void;
+    onExportar: (filtro: ExportFilter,formato: ExportFormat) => void;
 }
 
 const ExportModal: React.FC<ExportModalProps> = ({ onClose, onExportar }) => {
     const [filtro, setFiltro] = useState<ExportFilter>('Todas');
     const estadosExportables: ExportFilter[] = ['Todas', 'Pendiente', 'En Revisión', 'Aprobada', 'Negada'];
+    const [formato, setFormato] = useState<ExportFormat>('CSV');
 
     const handleExport = (e: React.FormEvent) => {
         e.preventDefault();
-        onExportar(filtro);
+        onExportar(filtro,formato);
         // onClose() se llama dentro de onExportar en App.tsx si la exportación es exitosa.
     };
 
     return (
         <div className="modal-overlay">
-            <div className="modal-content small-modal"> {/* Usamos una clase CSS para un modal más pequeño */}
-                <div className="modal-header">
-                    <h3>Exportar Solicitudes a CSV</h3>                    
-                </div>
+            <div className="modal-content small-modal"> 
+                {/* ... (Header) ... */}
 
                 <form onSubmit={handleExport} className="modal-form">
+                    
+                    {/* SELECTOR DE FILTRO DE ESTADO (EXISTENTE) */}
                     <div className="form-group">
-                        <label htmlFor="export-filter">Seleccionar Filtro:</label>
+                        <label htmlFor="export-filter" className="form-label">Seleccionar Estado:</label>
                         <select
                             id="export-filter"
                             value={filtro}
@@ -42,14 +43,27 @@ const ExportModal: React.FC<ExportModalProps> = ({ onClose, onExportar }) => {
                         </select>
                     </div>
 
-                    <p className="modal-note">El archivo se generará en formato CSV con delimitador ";".</p>
+                    {/* NUEVO SELECTOR DE FORMATO DE ARCHIVO */}
+                    <div className="form-group">
+                        <label htmlFor="export-format" className="form-label">Formato de Archivo:</label>
+                        <select
+                            id="export-format"
+                            value={formato}
+                            onChange={(e) => setFormato(e.target.value as ExportFormat)}
+                            required
+                            className="form-input"
+                        >
+                            <option value="CSV">Excel (CSV)</option>
+                            <option value="PDF">Documento (PDF)</option>
+                        </select>
+                    </div>  
 
                     <div className="modal-actions">
                         <button type="button" onClick={onClose} className="btn-cancel">
                             Cancelar
                         </button>
                         <button type="submit" className="btn-submit">
-                            Descargar CSV
+                            Descargar 
                         </button>
                     </div>
                 </form>

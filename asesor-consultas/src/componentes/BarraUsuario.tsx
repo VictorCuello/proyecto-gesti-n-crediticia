@@ -28,20 +28,16 @@ const BarraUsuario: React.FC<BarraUsuarioProps> = ({ user, onLogout, solicitudes
             </div>
         {/*Boton crear solicitud */}
             <button 
-                        onClick={onCrearSolicitud}
-                        className="btn-accion-principal">
-                        Crear Solicitud
+                onClick={onCrearSolicitud}
+                className="btn-accion-principal">
+                Crear Solicitud
             </button>
         {/*botones de usuario */}
             <nav className="BarraUsuario-nav">
                 <h4>Configuración y Acciones</h4>
-                <ul>                    
-                    <li><a href="#" onClick={(e) => { e.preventDefault(); alert("Navegando a Ajustes de Cuenta..."); }}>Ajustes de Cuenta</a></li>
-                    <li><a href="#" onClick={(e) => { e.preventDefault(); alert("Navegando a Historial de Logins..."); }}>Historial de Logins</a></li>
+                <ul> 
                     <li className="nav-item-Export">
-                        <a href="#" onClick={handleExportClick} className="menu-link">
-                            Exportar a CSV
-                        </a>
+                        <a href="#" onClick={handleExportClick} className="menu-link"> Exportar solicitudes</a>
                     </li>
                 </ul>   
             </nav> 

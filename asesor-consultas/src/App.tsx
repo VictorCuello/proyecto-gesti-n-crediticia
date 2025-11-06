@@ -1,15 +1,17 @@
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
 import  { useState, useEffect, useMemo } from 'react'; 
 import { ASESOR_LOGGED_IN, SOLICITUDES_DATA} from './types';
-import type { User, Solicitud, EstadoSolicitud, ExportFilter} from './types';
+import type { User, Solicitud, EstadoSolicitud, ExportFilter, ExportFormat} from './types';
 import DashboardAsesor from './componentes/DashboardAsesor';
 import BarraUsuario from './componentes/BarraUsuario';
 import SolicitudModal from './componentes/SolicitudModal.tsx';
 import ExportModal from './componentes/ExportModal.tsx';
 import './componentesCss/App.css';  
 
-const SOLICITUDES_POR_PAGINA = 8; // Define cuántas solicitudes se muestran por página.
-
 function App() {
+
+
 const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
 const [solicitudesIniciales, setSolicitudesIniciales] = useState<Solicitud[]>([]);
 // Estado para manejar el filtro seleccionado por el usuario
@@ -22,9 +24,12 @@ const [mostrarModal, setMostrarModal] = useState(false);
 const [nextId, setNextId] = useState(1);
 
 const [mostrarExportModal, setMostrarExportModal] = useState(false);
+const [solicitudesPorPagina, setSolicitudesPorPagina] = useState(8);
 
-const exportarSolicitudes = (filtro: ExportFilter) => {
+
+const exportarSolicitudes = (filtro: ExportFilter, formato: ExportFormat) => {
     let dataToExport = solicitudesIniciales;
+    let fileName = `solicitudes_${filtro.toLowerCase()}`;
 
     if (filtro !== 'Todas') {
       dataToExport = dataToExport.filter(sol => sol.estado === filtro);
@@ -35,32 +40,78 @@ const exportarSolicitudes = (filtro: ExportFilter) => {
       return;
     }
 
-    const headers = ["ID", "Cliente", "Cédula", "Fecha Creación", "Estado", "Asesor ID"];
-    
-    const rows = dataToExport.map(sol => [
-        sol.id,
-        `"${sol.cliente}"`, // Las comillas ayudan si el nombre tiene comas
-        sol.Cedula,
-        sol.fecha,
-        sol.estado,
-        sol.asesorId
-    ].join(';'));
+    // --- Lógica de Exportación a CSV (Existente) ---
+    if (formato === 'CSV') {
+        const headers = ["ID", "Cliente", "Cedula", "Fecha Creacion", "Estado", "Asesor ID"];
+        
+        const rows = dataToExport.map(sol => [
+            sol.id,
+            `"${sol.cliente}"`, 
+            sol.cedula,
+            sol.fecha,
+            sol.estado,
+            sol.asesorId
+        ].join(';')); 
 
-    const csvContent = headers.join(';') + "\n" + rows.join('\n');
+        const csvContent = "\uFEFF" + "sep=;\n" + headers.join(';') + "\n" + rows.join('\n');
+        
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        
+        if (link.download !== undefined) {
+          const url = URL.createObjectURL(blob);
+          link.setAttribute("href", url);
+          link.setAttribute("download", `${fileName}.csv`);
+          link.style.visibility = 'hidden';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+    } 
     
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement("a");
-    
-    if (link.download !== undefined) {
-      const url = URL.createObjectURL(blob);
-      link.setAttribute("href", url);
-      link.setAttribute("download", `solicitudes_${filtro.toLowerCase()}.csv`);
-      link.style.visibility = 'hidden';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link); 
+    // --- Lógica de Exportación a PDF (NUEVO) ---
+    else if (formato === 'PDF') {
+        try {
+            // Aseguramos que la instancia de jsPDF se inicialice correctamente
+            const doc = new jsPDF();
+            
+            const headers = [["ID", "Cliente", "Cédula", "Fecha Creación", "Estado", "Asesor ID"]];
+            
+            const body = dataToExport.map(sol => [
+                sol.id.toString(),
+                sol.cliente,
+                sol.cedula,
+                sol.fecha,
+                sol.estado,
+                sol.asesorId.toString()
+            ]);
+            
+            doc.text(`Reporte de Solicitudes - Filtro: ${filtro}`, 14, 15);
+            doc.setFontSize(10);
+            doc.text(`Fecha de Reporte: ${new Date().toLocaleDateString()}`, 14, 22);
+
+            // LLAMADA CRÍTICA A autoTable
+            (doc as any).autoTable({
+                head: headers,
+                body: body,
+                startY: 28, 
+                styles: { fontSize: 8, cellPadding: 3 },
+                headStyles: { fillColor: [0, 74, 153] }
+            });
+
+            doc.save(`${fileName}.pdf`);
+            
+        } catch (error) {
+            // Este bloque muestra el error si la librería de PDF no cargó
+            console.error("Error al generar PDF: ", error);
+            alert("Error: No se pudo generar el PDF. Esto puede ser un error de inicialización de librerías (jspdf/jspdf-autotable). Por favor, reinicia tu servidor.");
+            return;
+        }
     }
-  };
+
+    setMostrarExportModal(false);
+    alert(`¡Exportación a ${formato} completada!`);
+};
 
 
 useEffect(() => {
@@ -91,7 +142,7 @@ const crearNuevaSolicitud = (nombreCliente: string, cedulaCliente: string) => {
     const nuevaSolicitud: Solicitud = {
       id: nextId,
       cliente: nombreCliente,
-      Cedula: Number(cedulaCliente), // Agregado el campo cédula
+      cedula: Number(cedulaCliente), // Agregado el campo cédula
       fecha: new Date().toISOString().slice(0, 10), // Fecha actual
       estado: 'Pendiente', // Estado por defecto
       asesorId: loggedInUser.id,
@@ -130,18 +181,18 @@ setPaginaActual(1);}, [filtroEstado]);
 
 // 4. LÓGICA DE PAGINACIÓN: Determinar el subconjunto de solicitudes a mostrar
 const solicitudesMostradas = useMemo(() => {
-const indiceInicio = (paginaActual - 1) * SOLICITUDES_POR_PAGINA;
-const indiceFin = indiceInicio + SOLICITUDES_POR_PAGINA;
+const indiceInicio = (paginaActual - 1) * solicitudesPorPagina;
+const indiceFin = indiceInicio + solicitudesPorPagina;
 
 // Slice retorna el subconjunto de solicitudes para la página actual
 return solicitudesFiltradasPorEstado.slice(indiceInicio, indiceFin);
 
 
-}, [solicitudesFiltradasPorEstado, paginaActual]);
+}, [solicitudesFiltradasPorEstado, paginaActual,solicitudesPorPagina]);
 
 // Cálculo del total de páginas: DÍNÁMICO. Se basa en el total de solicitudes filtradas.
 // Esta es la fórmula clave para la paginación dinámica.
-const totalPaginas = Math.ceil(solicitudesFiltradasPorEstado.length / SOLICITUDES_POR_PAGINA);
+const totalPaginas = Math.ceil(solicitudesFiltradasPorEstado.length / solicitudesPorPagina);
 
 // Manejo de carga
 if (!loggedInUser) {
@@ -191,6 +242,8 @@ return (
     onPaginaChange={setPaginaActual} // <-- Función para cambiar de página
     filtroActual={filtroEstado}
     onFiltroChange={setFiltroEstado} 
+    solicitudesPorPagina={solicitudesPorPagina}
+    onPaginacionChange={setSolicitudesPorPagina}
   />
 </div>
 

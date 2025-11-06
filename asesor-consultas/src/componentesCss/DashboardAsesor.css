@@ -36,6 +36,15 @@ html, body, #root {
 }
 
 /* ---------------------------------------------------- */
+/* Solicites por pagina
+/* ---------------------------------------------------- */
+
+
+.solicitudes-per-page {
+    color: var(--color-text);
+}
+
+/* ---------------------------------------------------- */
 /* PANEL IZQUIERDO (BarraUsuario) - ANCHO ADECUADO */
 /* ---------------------------------------------------- */
 .BarraUsuario {
@@ -153,14 +162,121 @@ html, body, #root {
 .modal-actions{
     overflow-y: auto;
     padding: 20px 25px;
+    align-items: center;
 }
 
 .modal-content{
     margin-top: auto;
     display: flex; 
     flex-direction: column;
-
+    align-items: center;
 }
+
+/* ESTILOS DE MODAL (GENERAL) */
+/* ---------------------------------------------------- */
+.modal-overlay {
+    /* Mantiene el posicionamiento fijo que cubre todo el viewport */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    
+    /* CLAVES PARA EL CENTRADO */
+    display: flex;
+    justify-content: center; /* Centrado horizontal */
+    align-items: center; /* Centrado vertical */
+    
+    /* Asegura que el área de centrado use el 100% del viewport */
+    min-height: 100vh; 
+    width: 100vw;
+    
+    z-index: 2000;
+    padding: 15px;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    padding: 35px;
+    max-width: 450px;
+    width: 100%;
+    /* Previene que el modal salga del centro si el contenido es largo */
+    max-height: 90vh; 
+    overflow-y: auto;
+    
+    /* CLAVE: Anulamos cualquier margen que pueda empujarlo (aunque ya esté centrado) */
+    margin: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #e0e0e0;
+    color: var(--color-text); 
+    margin-bottom: 15px;
+}
+
+/* Controles de Formulario */
+.form-group {
+    margin-bottom: 20px;
+    color: var(--color-text);   
+}
+
+.form-label {
+     
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 8px;
+    font-size: 0.95em;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-input:focus {
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    outline: none;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.btn-submit {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-cancel {
+    background-color: #ccc;
+    color: var(--color-text);
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
 
 /* ---------------------------------------------------- */
 /* PANEL DERECHO (CONTENIDO PRINCIPAL) */
@@ -250,6 +366,7 @@ html, body, #root {
     gap: 60px;
     margin-top: 20px;
     width: 100%;
+    margin-bottom: 40px;
 }
 
 .request-card {

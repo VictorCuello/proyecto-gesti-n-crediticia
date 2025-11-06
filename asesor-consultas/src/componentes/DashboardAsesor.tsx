@@ -11,6 +11,9 @@ interface DashboardAsesorProps {
     onPaginaChange: (pagina: number) => void;
     filtroActual: EstadoSolicitud | 'Todas';
     onFiltroChange: (estado: EstadoSolicitud | 'Todas') => void;
+
+    solicitudesPorPagina: number; // Cantidad actual de solicitudes por página
+    onPaginacionChange: (cantidad: number) => void;
 }
 
 
@@ -22,7 +25,9 @@ const DashboardAsesor: React.FC<DashboardAsesorProps> = ({
     paginaActual,
     onPaginaChange,
     filtroActual, 
-    onFiltroChange 
+    onFiltroChange,
+    solicitudesPorPagina,
+    onPaginacionChange
 }) => {
     
     // Lógica para verificar el permiso específico de consulta
@@ -76,8 +81,31 @@ const DashboardAsesor: React.FC<DashboardAsesorProps> = ({
     return <p>Error: Usuario no autenticado.</p>;
 }
      return (
+
+        
         <div className="dashboard-content-main"> {/* Contenedor principal del panel derecho */}
         <h2 className="content-title">Detalle de Solicitudes ({totalSolicitudes} encontradas)</h2>
+        <div className="pagination-settings" style={{ padding: '15px', marginBottom: '20px', backgroundColor: '#f9f9f9', borderRadius: '4px', display: 'flex', alignItems: 'center', gap: '15px' }}>
+        <label htmlFor="solicitudes-per-page" style={{ fontWeight: 'bold', color: '#070505ff'}}>
+            Solicitudes por Página:
+        </label>
+        <input 
+            id="solicitudes-per-page"
+            type="number" 
+            min="1" 
+            value={solicitudesPorPagina} 
+            onChange={(e) => {
+                const newValue = parseInt(e.target.value, 10);
+                // Validar que el valor sea un número positivo antes de actualizar
+                if (newValue > 0) {
+                    onPaginacionChange(newValue); // Actualiza la cantidad de elementos por página
+                    onPaginaChange(1);           // **IMPORTANTE**: Resetea a la página 1
+                }
+            }}
+            style={{ padding: '8px', width: '60px', borderRadius: '4px', border: '1px solid #ccc' }}
+        />
+    </div>
+
             {/* Renderizado Condicional basado en el Permiso */}
             {tienePermisoConsulta ? (
                 <div>
