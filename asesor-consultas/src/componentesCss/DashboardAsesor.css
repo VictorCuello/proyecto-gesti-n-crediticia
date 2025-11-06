@@ -1,0 +1,381 @@
+/* src/componentesCss/DashboardAsesor.css */
+
+/* Colores Corporativos */
+:root {
+    --color-primary: #004a99; /* Azul oscuro (Típico de bancos) */
+    --color-secondary: #007bff; /* Azul claro (para botones y enlaces) */
+    --color-background: #f8f9fa; /* Fondo general */
+    --color-Crear: #5b636b;
+    --color-text: #000000; /* Gris oscuro para texto */
+    --color-success: #28a745;
+    --color-warning: #ffc107;
+    --color-danger: #dc3545;
+}
+
+/* ---------------------------------------------------- */
+/* Globales - Asegurar 100% de la pantalla */
+/* ---------------------------------------------------- */
+html, body, #root {    
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    /* Tipografía limpia para todo el proyecto */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+}
+
+/* ---------------------------------------------------- */
+/* LAYOUT PRINCIPAL DE 2 COLUMNAS (main-layout) */
+/* ---------------------------------------------------- */
+.main-layout {
+    display: flex;
+    min-height: 100vh; /* Ocupar toda la altura de la pantalla */
+    width: 100%; /* Ocupar todo el ancho de la pantalla */
+    background-color: var(--color-background); 
+    flex-grow: 1
+}
+
+/* ---------------------------------------------------- */
+/* PANEL IZQUIERDO (BarraUsuario) - ANCHO ADECUADO */
+/* ---------------------------------------------------- */
+.BarraUsuario {
+    width: 240px; /* Ancho fijo para el BarraUsuario */
+    min-width: 230px; /* Asegura que no se haga más pequeño */
+    background-color: var(--color-primary); 
+    color: white; 
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    overflow-y: hidden; 
+}
+
+.profile-card {
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
+    border-radius: 8px 0 8px 0;
+}
+
+.profile-icon {
+    font-size: 3em;
+    margin-bottom: 10px;
+    color: #ffd700; 
+}
+
+.user-name {
+    font-size: 1.3em;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.user-id {
+    font-size: 0.8em;
+    opacity: 0.7;
+}
+
+.nav-section {
+    padding: 20px 0;
+}
+
+.nav-section h4 {
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1em;
+}
+
+.nav-list {
+    list-style: none;
+    padding: 0;
+}
+
+.nav-item a, .nav-item span {
+    color: white;
+    text-decoration: none;
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s;
+    font-size: 0.95em;
+}
+
+.nav-item a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    padding-left: 5px;
+}
+
+.badge-pending {
+    margin-left: auto;
+    background-color: var(--color-danger);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    font-weight: 600;
+}
+
+.logout-button-BarraUsuario {
+    background-color: var(--color-danger);
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: auto; /* Empuja el botón al final */
+    transition: background-color 0.2s;
+}
+
+.logout-button-BarraUsuario:hover {
+    background-color: #c82333;
+}
+
+.BarraUsuario-footer {
+    margin-top: auto;
+    font-size: 0.75em;
+    opacity: 0.5;
+    text-align: center;
+}
+
+/* ---------------------------------------------------- */
+/* PANEL IZQUIERO (CREAR SOLICITUD) */
+/* ---------------------------------------------------- */
+.modal-overlay{
+    background-color: var(--color-Crear); 
+}
+
+.modal-actions{
+    overflow-y: auto;
+    padding: 20px 25px;
+}
+
+.modal-content{
+    margin-top: auto;
+    display: flex; 
+    flex-direction: column;
+
+}
+
+/* ---------------------------------------------------- */
+/* PANEL DERECHO (CONTENIDO PRINCIPAL) */
+/* ---------------------------------------------------- */
+.dashboard-content-main {
+    flex-grow: 1; /* Ocupa el espacio restante */
+    display: flex; 
+    flex-direction: column; /* Apila el título, filtros y grilla */
+    padding: 20px 25px; /* Padding del panel derecho */
+    overflow-y: hidden; 
+    background-color: var(--color-background);
+    overflow-x: hidden;
+    border: 20px solid #dee2e6;
+}
+
+/* Título principal del dashboard */
+.content-title {
+    color: var(--color-primary);
+    font-size: 1.8em;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 25px; /* Espacio debajo del título */
+    width: 100%; /* CLAVE: Ocupa el 100% del ancho del contenedor */
+    padding-bottom: 10px; 
+    border-bottom: 2px solid #ccc; 
+    text-align: left; 
+}
+
+/* ---------------------------------------------------- */
+/* FILTROS Y BOTONES */
+/* ---------------------------------------------------- */
+.filter-controls {
+    display: flex;
+    flex-wrap: wrap; 
+    align-items: center;
+    gap: 100px; 
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    width: 100%; /* CLAVE: Ocupa todo el ancho disponible */ 
+}
+
+.filter-button {
+    display: flex;
+    padding: 8px 15px;
+    border: 1px solid #ced4da;
+    background-color: #f8f9fa;
+    color: var(--color-text); 
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    flex-grow: 1; 
+    min-width: 100px; 
+    border-radius: 4px;
+     
+}
+
+.filter-button.active {
+    background-color: var(--color-secondary);
+    color: white;
+    border-color: var(--color-secondary);
+    font-weight: 600;
+    box-shadow: 0 2px 5px rgba(0, 123, 255, 0.3);
+}
+
+/* ---------------------------------------------------- */
+/* Boton Crear solicitud */
+/* ---------------------------------------------------- */
+
+.btn-accion-principal{
+   background-color: var(--color-secondary);
+}
+
+
+.btn-exportar{
+    background-color: var(--color-secondary);
+    margin-top: 20px;
+}
+
+/* ---------------------------------------------------- */
+/* GRID Y TARJETAS (RESPONSIVE) */
+/* ---------------------------------------------------- */
+.requests-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 60px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.request-card {
+    border: 1px solid #dee2e6;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    color: var(--color-text);
+}
+
+.request-title {
+    color: var(--color-primary);
+    font-size: 1.3em;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.request-detail {
+    margin: 4px 0;
+    font-size: 0.9em; 
+}
+
+.state-tag {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 600; 
+    margin-bottom: 10px;
+    z-index: 10;
+}
+
+.state-tag.Pendiente {
+    background-color: #fff3cd; color: #856404; /* Amarillo */
+}
+.state-tag.Revisión {
+    background-color: #cfe2ff; color: var(--color-secondary); /* Azul claro */
+}
+.state-tag.Aprobada {
+    background-color: #d4edda; color: var(--color-success); /* Verde */
+}
+.state-tag.Negada {
+    background-color: #f8d7da; color: var(--color-danger); /* Rojo suave */
+}
+
+.disabled-action-button {
+    margin-top: auto; 
+    background-color: #e9ecef;
+    color: #6c757d;
+    padding: 10px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    cursor: not-allowed;
+    width: 100%;
+}
+
+/* Paginación */
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    gap: 5px;
+    padding: 10px;
+}
+
+.pagination-btn, .pagination-page-number {
+    padding: 8px 15px;
+    border: 1px solid #ced4da;
+    background-color: white;
+    color: var(--color-primary);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.pagination-page-number.active {
+    background-color: var(--color-secondary);
+    color: white;
+}
+.pagination-container{
+    margin-top: auto; 
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: 0.75em;
+    opacity: 0.5;
+    text-align: center;
+    padding: 15px 0;
+    align-items: center;
+    position: fixed;
+    z-index: 1000;
+}
+
+/* ---------------------------------------------------- */
+/* MEDIA QUERIES (Adaptación) */
+/* ---------------------------------------------------- */
+@media (max-width: 900px) {     
+
+    .BarraUsuario {
+        width: 100%;
+        min-width: unset;
+        position: relative; 
+        padding: 15px;
+    }
+    
+   
+    
+    .filter-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filter-button {
+        width: 100%;
+    }
+
+    .requests-grid {
+        grid-template-columns: 1fr;
+    }
+}
