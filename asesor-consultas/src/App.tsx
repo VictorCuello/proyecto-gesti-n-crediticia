@@ -3,10 +3,10 @@ import 'jspdf-autotable';
 import  { useState, useEffect, useMemo } from 'react'; 
 import { ASESOR_LOGGED_IN, SOLICITUDES_DATA} from './types';
 import type { User, Solicitud, EstadoSolicitud, ExportFilter, ExportFormat} from './types';
-import DashboardAsesor from './componentes/DashboardAsesor';
-import BarraUsuario from './componentes/BarraUsuario';
-import SolicitudModal from './componentes/SolicitudModal.tsx';
-import ExportModal from './componentes/ExportModal.tsx';
+import DashboardAsesor from '../../src/pages/DashboardAsesor.tsx';
+import BarraUsuario from '../../src/pages/BarraUsuario.tsx';
+import SolicitudModal from '../../src/pages/SolicitudModal.tsx';
+import ExportModal from '../../src/pages/ExportModal.tsx';
 import './componentesCss/App.css';  
 
 function App() {
