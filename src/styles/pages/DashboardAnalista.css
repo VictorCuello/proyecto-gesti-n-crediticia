@@ -1,4 +1,4 @@
-/* src/styles/pages/DashboardAnalista.css */
+
 .analista-dashboard {
     padding: 20px;
     background-color: #fff;
@@ -78,7 +78,7 @@
     font-size: 13px;
 }
 
-/* Etiquetas de estado (consistentes con Asesor) */
+
 .estado-tag {
     padding: 4px 10px;
     border-radius: 12px;

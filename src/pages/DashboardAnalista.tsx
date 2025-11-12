@@ -1,32 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { CSVLink } from 'react-csv'; // <-- Para el Reporte CSV (Feedback Profe)
+import { CSVLink } from 'react-csv';
 
-// Importamos todos los datos y tipos que necesitamos
+// 1. Importa los TIPOS (interfaces)
+import type { ISolicitud, IUsuario, ICliente } from '../types';
+// 2. Importa los VALORES (enums)
+import { RequestStatus } from '../types';
+
 import { 
     solicitudes as allSolicitudes, 
     usuarios, 
     clientes 
-}  from '../data/mockData'; // <-- Este puede estar bien si el archivo se llama mockData.ts
-// 1. Importa los TIPOS (interfaces) usando la palabra "type"
-import type { ISolicitud, IUsuario, ICliente } from '../types';
+} from '../data/mockData';
 
-// 2. Importa los VALORES (enums) por separado
-import { RequestStatus } from '../types';
-// Importa el CSS que crearemos en el siguiente paso
 import '../styles/pages/DashboardAnalista.css'; 
 
 const DashboardAnalista: React.FC = () => {
 
-    // --- Lógica para "Humanizar" los Datos ---
-    // Para no mostrar solo IDs, creamos "mapas" para buscar nombres
     const clienteMap = new Map(clientes.map(c => [c.id, c.nombre_completo]));
     const asesorMap = new Map(usuarios.map(u => [u.id, u.nombre]));
 
-    // El analista ve TODAS las solicitudes
     const solicitudes = allSolicitudes;
 
-    // --- Lógica para el Reporte CSV (Feedback Profe) ---
     const csvData = solicitudes.map(sol => ({
         ID_Solicitud: sol.id,
         Fecha: sol.fecha_creacion.toLocaleDateString(),
@@ -37,11 +32,10 @@ const DashboardAnalista: React.FC = () => {
         Nombre_Asesor: asesorMap.get(sol.asesor_id) || 'N/A',
     }));
 
-    // Función para dar color a los estados (igual que la del Asesor)
     const getEstadoClass = (estado: RequestStatus) => {
         switch (estado) {
             case RequestStatus.PENDING: return 'Pendiente';
-            case RequestStatus.IN_PROCESS: return 'En-Proceso'; // CSS no usa espacios
+            case RequestStatus.IN_PROCESS: return 'En-Proceso';
             case RequestStatus.COMPLETED: return 'Completado';
             default: return '';
         }
@@ -52,7 +46,6 @@ const DashboardAnalista: React.FC = () => {
             <div className="header-bar">
                 <h2>Inventario General de Solicitudes ({solicitudes.length})</h2>
                 
-                {/* --- ESTE ES EL BOTÓN DE REPORTE (Feedback Profe) --- */}
                 <CSVLink 
                     data={csvData} 
                     filename="reporte-historico-solicitudes.csv"
@@ -62,7 +55,6 @@ const DashboardAnalista: React.FC = () => {
                 </CSVLink>
             </div>
 
-            {/* --- La Tabla de Solicitudes --- */}
             <table className="solicitudes-table">
                 <thead>
                     <tr>
@@ -78,7 +70,6 @@ const DashboardAnalista: React.FC = () => {
                     {solicitudes.map((sol) => (
                         <tr key={sol.id}>
                             <td>{sol.id}</td>
-                            {/* Mostramos el nombre usando el mapa, o el ID si no lo encuentra */}
                             <td>{clienteMap.get(sol.cliente_id) || sol.cliente_id}</td>
                             <td>{asesorMap.get(sol.asesor_id) || sol.asesor_id}</td>
                             <td>{sol.fecha_creacion.toLocaleDateString()}</td>
@@ -88,10 +79,9 @@ const DashboardAnalista: React.FC = () => {
                                 </span>
                             </td>
                             <td>
-                                {/* Mostramos "Evaluar" solo si está PENDIENTE */}
                                 {sol.estado === RequestStatus.PENDING ? (
                                     <Link 
-                                        to={`/evaluar/${sol.id}`} // <-- Link a tu próxima tarea
+                                        to={`/evaluar/${sol.id}`} 
                                         className="btn-evaluar"
                                     >
                                         Evaluar

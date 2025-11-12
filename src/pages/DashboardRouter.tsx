@@ -1,4 +1,4 @@
-// src/pages/DashboardRouter.tsx - (EL CEREBRO)
+
 import { useAuth } from '../context/AuthContext';
 import { UserRole } from '../types';
 import DashboardAsesor from './DashboardAsesor';

@@ -1,8 +1,8 @@
-// src/pages/Layout.tsx - (EL MARCO)
+
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import '../styles/pages/Layout.css'; // (Asegúrate que la ruta al CSS sea correcta)
+import '../styles/pages/Layout.css'; 
 
 // 1. Aceptamos 'children' como prop
 export const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -16,7 +16,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className="dashboard-container">
-      {/* Este es el encabezado */}
+      
       <header className="dashboard-header">
         <h1>Plataforma de Evaluación Crediticia</h1>
         <div className="user-info">
@@ -28,7 +28,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </header>
 
-      {/* 2. Aquí renderizamos LO QUE SEA que nos pasen */}
+      
       <main className="dashboard-main">
         {children}
       </main>
