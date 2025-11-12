@@ -1,23 +1,18 @@
 import React, { useState, useMemo } from 'react';
-// <-- 1. Importa los 'hooks' de React que vamos a usar
 
-// <-- 2. CORRIGE LA RUTA DE IMPORTACIÓN
 import type { IUsuario, ISolicitud } from '../types';
 import { UserRole, RequestStatus, EvaluationResult } from '../types';
 
-// <-- 3. Importa el Contexto de Autenticación
+
 import { useAuth } from '../context/AuthContext';
 
-// <-- 4. Importa los datos falsos
+
 import { solicitudes as allSolicitudes } from '../data/mockData';
 
 import "../styles/pages/DashboardAsesor.css";
 
-// <-- 6. BORRAMOS TODA LA INTERFAZ 'DashboardAsesorProps'
-//    El componente ya no recibirá props.
 
-
-const DashboardAsesor: React.FC = () => { // <-- 6. (Continuación) Borramos las props
+const DashboardAsesor: React.FC = () => {
 
     // <-- 7. OBTENEMOS AL USUARIO DEL CONTEXTO
     const { user } = useAuth();
@@ -25,11 +20,7 @@ const DashboardAsesor: React.FC = () => { // <-- 6. (Continuación) Borramos las
     // <-- 8. CREAMOS EL ESTADO INTERNO
     const [paginaActual, setPaginaActual] = useState(1);
     const [filtroActual, setFiltroActual] = useState<RequestStatus | 'Todas'>('Todas');
-    const [solicitudesPorPagina, setSolicitudesPorPagina] = useState(5); // <-- Pon un valor inicial
-
-
-    // Lógica para verificar el permiso (ahora usa el 'user' del contexto)
-    // Usamos 'user?' (optional chaining) por si el usuario aún no ha cargado
+    const [solicitudesPorPagina, setSolicitudesPorPagina] = useState(5); 
     const tienePermisoConsulta = user?.rol === UserRole.ADVISOR;
 
 
@@ -112,7 +103,7 @@ const DashboardAsesor: React.FC = () => { // <-- 6. (Continuación) Borramos las
 
     // <-- 10. VERIFICAMOS EL USUARIO DEL CONTEXTO
     if (!user) {
-        return <p>Cargando usuario...</p>; // O un spinner
+        return <p>Cargando usuario...</p>; 
     }
 
     return (
