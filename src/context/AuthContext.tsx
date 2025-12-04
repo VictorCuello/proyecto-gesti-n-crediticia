@@ -1,8 +1,7 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import type { IAuthContext, IUsuario } from '../types';
-import { UserRole } from '../types';
-import { usuarios } from '../data/mockData';
+import { authApi } from '../services/api';
 
 const AuthContext = createContext<IAuthContext | undefined>(undefined);
 
@@ -19,62 +18,87 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<IUsuario | null>(() => {
-    // Check if user is stored in localStorage
-    const storedUser = localStorage.getItem('currentUser');
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
+  const [user, setUser] = useState<IUsuario | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Verificar token al cargar la aplicación
+  useEffect(() => {
+    const initAuth = async () => {
+      if (authApi.hasToken()) {
+        try {
+          const response = await authApi.getCurrentUser();
+          if (response.success && response.data?.user) {
+            const userData = response.data.user;
+            setUser({
+              id: String(userData.id),
+              nombre: userData.nombre,
+              email: userData.email,
+              password: '', // No almacenamos la contraseña
+              rol: userData.rol as IUsuario['rol'],
+              fecha_creacion: new Date(userData.fecha_creacion)
+            });
+          } else {
+            authApi.logout();
+          }
+        } catch {
+          authApi.logout();
+        }
+      }
+      setIsLoading(false);
+    };
+
+    initAuth();
+  }, []);
 
   const login = async (email: string, password: string): Promise<boolean> => {
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 500));
+    try {
+      const response = await authApi.login(email, password);
 
-    const foundUser = usuarios.find(
-      u => u.email === email && u.password === password
-    );
+      if (response.success && response.data?.user) {
+        const userData = response.data.user;
+        setUser({
+          id: String(userData.id),
+          nombre: userData.nombre,
+          email: userData.email,
+          password: '',
+          rol: userData.rol as IUsuario['rol'],
+          fecha_creacion: new Date(userData.fecha_creacion)
+        });
+        return true;
+      }
 
-    if (foundUser) {
-      setUser(foundUser);
-      localStorage.setItem('currentUser', JSON.stringify(foundUser));
-      return true;
+      return false;
+    } catch {
+      return false;
     }
-
-    return false;
   };
 
   const register = async (nombre: string, email: string, password: string): Promise<boolean> => {
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 500));
+    try {
+      const response = await authApi.register(nombre, email, password);
 
-    // Check if email already exists
-    const existingUser = usuarios.find(u => u.email === email);
-    if (existingUser) {
+      if (response.success && response.data?.user) {
+        const userData = response.data.user;
+        setUser({
+          id: String(userData.id),
+          nombre: userData.nombre,
+          email: userData.email,
+          password: '',
+          rol: userData.rol as IUsuario['rol'],
+          fecha_creacion: new Date(userData.fecha_creacion)
+        });
+        return true;
+      }
+
+      return false;
+    } catch {
       return false;
     }
-
-    // Create new user (advisor by default)
-    const newUser: IUsuario = {
-      id: `user_${Date.now()}`,
-      nombre,
-      email,
-      password,
-      rol: UserRole.ADVISOR, // New users are advisors
-      fecha_creacion: new Date()
-    };
-
-    // Add to mock data
-    usuarios.push(newUser);
-    
-    // Auto-login after registration
-    setUser(newUser);
-    localStorage.setItem('currentUser', JSON.stringify(newUser));
-    
-    return true;
   };
 
   const logout = () => {
+    authApi.logout();
     setUser(null);
-    localStorage.removeItem('currentUser');
   };
 
   const value: IAuthContext = {
@@ -84,6 +108,22 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     register,
     isAuthenticated: !!user
   };
+
+  // Mostrar loading mientras se verifica el token
+  if (isLoading) {
+    return (
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100vh',
+        fontSize: '18px',
+        color: '#666'
+      }}>
+        Cargando...
+      </div>
+    );
+  }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

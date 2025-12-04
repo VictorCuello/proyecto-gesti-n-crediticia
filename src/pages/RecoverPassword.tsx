@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import type { IRecoverPasswordForm } from '../types';
+import { authApi } from '../services/api';
 import '../styles/pages/Auth.css';
 
 export const RecoverPassword = () => {
@@ -18,16 +19,19 @@ export const RecoverPassword = () => {
     setMessage('');
     setIsLoading(true);
 
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
     try {
-      // In a real app, this would send a recovery email
-      // For now, we just show a success message
-      setMessage('Se ha enviado un correo electrónico con instrucciones para recuperar su contraseña.');
-      setFormData({ email: '' });
+      const response = await authApi.forgotPassword(formData.email);
+      
+      if (response.success) {
+        setMessage(response.message || 'Se ha enviado un correo electrónico con instrucciones para recuperar su contraseña.');
+        setFormData({ email: '' });
+      } else {
+        setError(response.message || 'Error al procesar la solicitud.');
+      }
     } catch (err) {
-      setError('Error al procesar la solicitud. Por favor, intente nuevamente.');
+      // Por seguridad, mostramos mensaje genérico
+      setMessage('Si el email está registrado, recibirás instrucciones para recuperar tu contraseña.');
+      setFormData({ email: '' });
     } finally {
       setIsLoading(false);
     }

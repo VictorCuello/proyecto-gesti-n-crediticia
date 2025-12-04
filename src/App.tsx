@@ -5,7 +5,7 @@ import { ProtectedRoute } from './components';
 
 
 import Layout from './pages/Layout';
-import { Login, Register, RecoverPassword } from './pages';
+import { Login, Register, RecoverPassword, ResetPassword } from './pages';
 import DashboardRouter from './pages/DashboardRouter';
 import PaginaDeEvaluacion from './pages/PaginaDeEvaluacion';
 
@@ -21,6 +21,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/registro" element={<Register />} />
           <Route path="/recuperar" element={<RecoverPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
 
 
           <Route
