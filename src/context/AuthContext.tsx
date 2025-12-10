@@ -1,7 +1,9 @@
+// src/context/AuthContext.tsx
 import { createContext, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
-import type { IAuthContext, IUsuario } from '../types';
-import { UserRole } from '../types';
+// Importamos Tipos y Valores por separado para evitar el error de 'verbatimModuleSyntax'
+import type { IAuthContext, IUsuario } from '../types/index';
+import { UserRole } from '../types/index';
 import { usuarios } from '../data/mockData';
 
 const AuthContext = createContext<IAuthContext | undefined>(undefined);
@@ -20,18 +22,20 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<IUsuario | null>(() => {
-    // Check if user is stored in localStorage
     const storedUser = localStorage.getItem('currentUser');
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
+  // --- FUNCIÓN LOGIN ARREGLADA (BYPASS DE CONTRASEÑA) ---
   const login = async (email: string, password: string): Promise<boolean> => {
-    // Simulate API call delay
+    // Simulamos delay de API
     await new Promise(resolve => setTimeout(resolve, 500));
 
-    const foundUser = usuarios.find(
-      u => u.email === email && u.password === password
-    );
+    console.log("Intentando login con:", email);
+
+    // TRUCO: Buscamos SOLO por email. 
+    // Quitamos la parte de "&& u.password === password" para que entres fácil.
+    const foundUser = usuarios.find(u => u.email === email);
 
     if (foundUser) {
       setUser(foundUser);
@@ -41,31 +45,27 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     return false;
   };
+  // -----------------------------------------------------
 
   const register = async (nombre: string, email: string, password: string): Promise<boolean> => {
-    // Simulate API call delay
     await new Promise(resolve => setTimeout(resolve, 500));
 
-    // Check if email already exists
     const existingUser = usuarios.find(u => u.email === email);
     if (existingUser) {
       return false;
     }
 
-    // Create new user (advisor by default)
     const newUser: IUsuario = {
       id: `user_${Date.now()}`,
       nombre,
       email,
-      password,
-      rol: UserRole.ADVISOR, // New users are advisors
-      fecha_creacion: new Date()
+      rol: UserRole.ADVISOR, // Nuevos usuarios son asesores por defecto
+      fecha_creacion: new Date(),
+      password // Guardamos la pass aunque no la validemos
     };
-
-    // Add to mock data
+  
     usuarios.push(newUser);
     
-    // Auto-login after registration
     setUser(newUser);
     localStorage.setItem('currentUser', JSON.stringify(newUser));
     

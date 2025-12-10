@@ -1,498 +1,164 @@
-/* src/componentesCss/DashboardAsesor.css */
+/* src/styles/pages/DashboardAsesor.css */
 
-/* Colores Corporativos */
-:root {
-    --color-primary: #004a99; /* Azul oscuro (Típico de bancos) */
-    --color-secondary: #007bff; /* Azul claro (para botones y enlaces) */
-    --color-background: #f8f9fa; /* Fondo general */
-    --color-Crear: #5b636b;
-    --color-text: #000000; /* Gris oscuro para texto */
-    --color-success: #28a745;
-    --color-warning: #ffc107;
-    --color-danger: #dc3545;
-}
-
-/* ---------------------------------------------------- */
-/* Globales - Asegurar 100% de la pantalla */
-/* ---------------------------------------------------- */
-html, body, #root {    
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    /* Tipografía limpia para todo el proyecto */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-}
-
-/* ---------------------------------------------------- */
-/* LAYOUT PRINCIPAL DE 2 COLUMNAS (main-layout) */
-/* ---------------------------------------------------- */
-.main-layout {
-    display: flex;
-    min-height: 100vh; /* Ocupar toda la altura de la pantalla */
-    width: 100%; /* Ocupar todo el ancho de la pantalla */
-    background-color: var(--color-background); 
-    flex-grow: 1
-}
-
-/* ---------------------------------------------------- */
-/* Solicites por pagina
-/* ---------------------------------------------------- */
-
-
-.solicitudes-per-page {
-    color: var(--color-text);
-}
-
-/* ---------------------------------------------------- */
-/* PANEL IZQUIERDO (BarraUsuario) - ANCHO ADECUADO */
-/* ---------------------------------------------------- */
-.BarraUsuario {
-    width: 240px; /* Ancho fijo para el BarraUsuario */
-    min-width: 230px; /* Asegura que no se haga más pequeño */
-    background-color: var(--color-primary); 
-    color: white; 
+/* 1. Contenedor Principal */
+.dashboard-content {
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    position: sticky;
-    top: 0;
-    overflow-y: hidden; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.profile-card {
-    text-align: center;
-    padding-bottom: 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    margin-bottom: 20px;
-    border-radius: 8px 0 8px 0;
+/* 2. Cabecera y Botón de Crear */
+.header-actions h2 {
+    color: #2c3e50;
+    font-size: 1.8rem;
+    margin: 0;
 }
 
-.profile-icon {
-    font-size: 3em;
-    margin-bottom: 10px;
-    color: #ffd700; 
-}
-
-.user-name {
-    font-size: 1.3em;
-    font-weight: 600;
-    margin-bottom: 5px;
-}
-
-.user-id {
-    font-size: 0.8em;
-    opacity: 0.7;
-}
-
-.nav-section {
-    padding: 20px 0;
-}
-
-.nav-section h4 {
-    color: rgba(255, 255, 255, 0.8);
-    font-weight: 400;
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 1em;
-}
-
-.nav-list {
-    list-style: none;
-    padding: 0;
-}
-
-.nav-item a, .nav-item span {
-    color: white;
-    text-decoration: none;
-    padding: 8px 0;
-    display: flex;
-    align-items: center;
-    transition: background-color 0.2s;
-    font-size: 0.95em;
-}
-
-.nav-item a:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-    padding-left: 5px;
-}
-
-.badge-pending {
-    margin-left: auto;
-    background-color: var(--color-danger);
-    color: white;
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 0.75em;
-    font-weight: 600;
-}
-
-.logout-button-BarraUsuario {
-    background-color: var(--color-danger);
-    color: white;
-    padding: 10px;
+.btn-crear-cliente {
+    background: linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%); /* Degradado Morado */
+    color: white !important;
     border: none;
-    border-radius: 4px;
+    padding: 10px 20px !important;
+    border-radius: 8px !important;
+    font-weight: 600;
+    font-size: 0.95rem;
     cursor: pointer;
-    font-size: 1em;
-    margin-top: auto; /* Empuja el botón al final */
-    transition: background-color 0.2s;
-}
-
-.logout-button-BarraUsuario:hover {
-    background-color: #c82333;
-}
-
-.BarraUsuario-footer {
-    margin-top: auto;
-    font-size: 0.75em;
-    opacity: 0.5;
-    text-align: center;
-}
-
-/* ---------------------------------------------------- */
-/* PANEL IZQUIERO (CREAR SOLICITUD) */
-/* ---------------------------------------------------- */
-.modal-overlay{
-    background-color: var(--color-Crear); 
-}
-
-.modal-actions{
-    overflow-y: auto;
-    padding: 20px 25px;
-    align-items: center;
-}
-
-.modal-content{
-    margin-top: auto;
-    display: flex; 
-    flex-direction: column;
-    align-items: center;
-}
-
-/* ESTILOS DE MODAL (GENERAL) */
-/* ---------------------------------------------------- */
-.modal-overlay {
-    /* Mantiene el posicionamiento fijo que cubre todo el viewport */
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.6);
-    
-    /* CLAVES PARA EL CENTRADO */
+    box-shadow: 0 4px 10px rgba(111, 66, 193, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
     display: flex;
-    justify-content: center; /* Centrado horizontal */
-    align-items: center; /* Centrado vertical */
-    
-    /* Asegura que el área de centrado use el 100% del viewport */
-    min-height: 100vh; 
-    width: 100vw;
-    
-    z-index: 2000;
-    padding: 15px;
+    align-items: center;
+    gap: 8px;
 }
 
-.modal-content {
+.btn-crear-cliente:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(111, 66, 193, 0.4);
+}
+
+/* 3. Filtros (Estilo "Píldora") */
+.filters-container {
+    display: flex;
+    gap: 10px;
+    margin: 25px 0;
+    flex-wrap: wrap; /* Para que baje en móviles */
+}
+
+.filter-btn {
     background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-    padding: 35px;
-    max-width: 450px;
-    width: 100%;
-    /* Previene que el modal salga del centro si el contenido es largo */
-    max-height: 90vh; 
-    overflow-y: auto;
-    
-    /* CLAVE: Anulamos cualquier margen que pueda empujarlo (aunque ya esté centrado) */
-    margin: auto;
+    border: 1px solid #e0e0e0;
+    color: #666;
+    padding: 8px 16px;
+    border-radius: 20px; /* Redonditos */
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
 }
 
-.modal-header {
+.filter-btn:hover {
+    background-color: #f8f9fa;
+    border-color: #ccc;
+}
+
+.filter-btn.active {
+    background-color: #2c3e50; /* Oscuro elegante para el activo */
+    color: white;
+    border-color: #2c3e50;
+    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.3);
+}
+
+/* 4. GRID DE TARJETAS (Lo más importante) */
+.cards-grid {
+    display: grid;
+    /* Esto hace que las tarjetas se acomoden solas según el tamaño de la pantalla */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+/* 5. Diseño de la Tarjeta Individual */
+.solicitud-card {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #f0f0f0;
+    overflow: hidden; /* Para que nada se salga de los bordes */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+
+.solicitud-card:hover {
+    transform: translateY(-5px); /* Se levanta un poco al pasar el mouse */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    border-color: #6f42c1; /* Borde morado sutil al hover */
+}
+
+/* Cabecera de la Tarjeta */
+.card-header {
+    background-color: #fcfcfc;
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f0f0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid #e0e0e0;
-    color: var(--color-text); 
-    margin-bottom: 15px;
 }
 
-/* Controles de Formulario */
-.form-group {
-    margin-bottom: 20px;
-    color: var(--color-text);   
+.card-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: 700;
 }
 
-.form-label {
-     
-    font-weight: 600;
-    color: var(--color-text);
-    margin-bottom: 8px;
-    font-size: 0.95em;
-}
-
-.form-input {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #ced4da;
-    border-radius: 8px;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.form-input:focus {
-    border-color: var(--color-secondary);
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
-    outline: none;
-}
-
-.modal-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 15px;
-    margin-top: 30px;
-}
-
-.btn-submit {
-    background-color: var(--color-primary);
-    color: white;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.btn-cancel {
-    background-color: #ccc;
-    color: var(--color-text);
-    padding: 12px 25px;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-
-/* ---------------------------------------------------- */
-/* PANEL DERECHO (CONTENIDO PRINCIPAL) */
-/* ---------------------------------------------------- */
-.dashboard-content-main {
-    flex-grow: 1; /* Ocupa el espacio restante */
-    display: flex; 
-    flex-direction: column; /* Apila el título, filtros y grilla */
-    padding: 20px 25px; /* Padding del panel derecho */
-    overflow-y: hidden; 
-    background-color: var(--color-background);
-    overflow-x: hidden;
-    border: 20px solid #dee2e6;
-}
-
-/* Título principal del dashboard */
-.content-title {
-    color: var(--color-primary);
-    font-size: 1.8em;
-    font-weight: 400;
-    margin-top: 0;
-    margin-bottom: 25px; /* Espacio debajo del título */
-    width: 100%; /* CLAVE: Ocupa el 100% del ancho del contenedor */
-    padding-bottom: 10px; 
-    border-bottom: 2px solid #ccc; 
-    text-align: left; 
-}
-
-/* ---------------------------------------------------- */
-/* FILTROS Y BOTONES */
-/* ---------------------------------------------------- */
-.filter-controls {
-    display: flex;
-    flex-wrap: wrap; 
-    align-items: center;
-    gap: 100px; 
-    margin-bottom: 25px;
-    padding: 15px;
-    background-color: white;
-    border-radius: 6px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    width: 100%; /* CLAVE: Ocupa todo el ancho disponible */ 
-}
-
-.filter-button {
-    display: flex;
-    padding: 8px 15px;
-    border: 1px solid #ced4da;
-    background-color: #f8f9fa;
-    color: var(--color-text); 
-    cursor: pointer;
-    transition: background-color 0.2s, color 0.2s;
-    flex-grow: 1; 
-    min-width: 100px; 
-    border-radius: 4px;
-     
-}
-
-.filter-button.active {
-    background-color: var(--color-secondary);
-    color: white;
-    border-color: var(--color-secondary);
-    font-weight: 600;
-    box-shadow: 0 2px 5px rgba(0, 123, 255, 0.3);
-}
-
-/* ---------------------------------------------------- */
-/* Boton Crear solicitud */
-/* ---------------------------------------------------- */
-
-.btn-accion-principal{
-   background-color: var(--color-secondary);
-}
-
-
-.btn-exportar{
-    background-color: var(--color-secondary);
-    margin-top: 20px;
-}
-
-/* ---------------------------------------------------- */
-/* GRID Y TARJETAS (RESPONSIVE) */
-/* ---------------------------------------------------- */
-.requests-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 60px;
-    margin-top: 20px;
-    width: 100%;
-    margin-bottom: 40px;
-}
-
-.request-card {
-    border: 1px solid #dee2e6;
+/* Cuerpo de la Tarjeta */
+.card-body {
     padding: 20px;
-    border-radius: 8px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    height: 100%;
+}
+
+.card-body p {
+    margin: 8px 0;
+    color: #555;
+    font-size: 0.95rem;
     display: flex;
-    flex-direction: column;
-    position: relative;
-    color: var(--color-text);
+    justify-content: space-between; /* Texto a los extremos */
 }
 
-.request-title {
-    color: var(--color-primary);
-    font-size: 1.3em;
-    font-weight: 600;
-    margin-top: 0;
-    margin-bottom: 5px;
+.card-body strong {
+    color: #2c3e50;
 }
 
-.request-detail {
-    margin: 4px 0;
-    font-size: 0.9em; 
-}
-
-.state-tag {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-
-    display: inline-block;
-    padding: 4px 8px;
+/* 6. Badges (Etiquetas de Estado) - Reutilizando colores */
+.estado-badge {
+    font-size: 0.75rem;
+    padding: 4px 10px;
     border-radius: 12px;
-    font-size: 0.8em;
-    font-weight: 600; 
-    margin-bottom: 10px;
-    z-index: 10;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.state-tag.Pendiente {
-    background-color: #fff3cd; color: #856404; /* Amarillo */
-}
-.state-tag.Revisión {
-    background-color: #cfe2ff; color: var(--color-secondary); /* Azul claro */
-}
-.state-tag.Aprobada {
-    background-color: #d4edda; color: var(--color-success); /* Verde */
-}
-.state-tag.Negada {
-    background-color: #f8d7da; color: var(--color-danger); /* Rojo suave */
-}
+.estado-badge.Pendiente { background-color: #fff3cd; color: #856404; }
+.estado-badge.En-Proceso { background-color: #cce5ff; color: #004085; }
+.estado-badge.Completado { background-color: #d4edda; color: #155724; }
+.estado-badge.Rechazado { background-color: #f8d7da; color: #721c24; }
 
-.disabled-action-button {
-    margin-top: auto; 
-    background-color: #e9ecef;
-    color: #6c757d;
-    padding: 10px 12px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    cursor: not-allowed;
-    width: 100%;
-}
-
-/* Paginación */
-.pagination-controls {
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-    gap: 5px;
-    padding: 10px;
-}
-
-.pagination-btn, .pagination-page-number {
-    padding: 8px 15px;
-    border: 1px solid #ced4da;
-    background-color: white;
-    color: var(--color-primary);
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.pagination-page-number.active {
-    background-color: var(--color-secondary);
-    color: white;
-}
-.pagination-container{
-    margin-top: auto; 
-    bottom: 0;
-    left: 0;
-    right: 0;
-    font-size: 0.75em;
-    opacity: 0.5;
-    text-align: center;
-    padding: 15px 0;
-    align-items: center;
-    position: fixed;
-    z-index: 1000;
-}
-
-/* ---------------------------------------------------- */
-/* MEDIA QUERIES (Adaptación) */
-/* ---------------------------------------------------- */
-@media (max-width: 900px) {     
-
-    .BarraUsuario {
-        width: 100%;
-        min-width: unset;
-        position: relative; 
+/* 7. Ajuste para Móviles */
+@media (max-width: 768px) {
+    .dashboard-content {
         padding: 15px;
     }
     
-   
-    
-    .filter-controls {
+    .header-actions {
         flex-direction: column;
         align-items: stretch;
-    }
-    
-    .filter-button {
-        width: 100%;
+        gap: 15px;
     }
 
-    .requests-grid {
-        grid-template-columns: 1fr;
+    .btn-crear-cliente {
+        justify-content: center;
+    }
+    
+    .filters-container {
+        justify-content: center; /* Filtros centrados en móvil */
     }
 }

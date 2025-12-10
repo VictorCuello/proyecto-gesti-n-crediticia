@@ -19,3 +19,64 @@ body {
   min-height: 100vh;
 }
 
+/* --- PARCHE DE EMERGENCIA PARA MÓVIL (Responsive) --- */
+
+@media screen and (max-width: 768px) {
+
+    /* 1. Ajustar el Layout General */
+    .dashboard-container {
+        flex-direction: column; /* Apila todo verticalmente */
+        width: 100%;
+        overflow-x: hidden; /* Evita scroll horizontal feo en el body */
+    }
+
+    /* 2. Arreglar el Encabezado Morado */
+    .dashboard-header {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+        height: auto; /* Que crezca según contenido */
+    }
+
+    .dashboard-header .user-info {
+        margin-top: 10px;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    /* 3. Hacer que las TABLAS tengan scroll horizontal (Súper Importante) */
+    /* Esto evita que la tabla rompa el diseño */
+    .analista-dashboard, .dashboard-content {
+        overflow-x: auto; /* Habilita deslizar con el dedo */
+        width: 100%;
+        display: block;
+    }
+
+    table {
+        min-width: 600px; /* Fuerza a la tabla a mantener su tamaño */
+    }
+
+    /* 4. Ajustar Botones y Acciones */
+    .header-bar, .header-actions {
+        flex-direction: column;
+        align-items: stretch; /* Botones ancho completo */
+        gap: 10px;
+    }
+
+    .btn-reporte, .btn-crear-cliente {
+        width: 100%; /* Botones grandes fáciles de tocar */
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    /* 5. Ajustar Tarjetas (Cards) del Asesor */
+    .cards-grid {
+        grid-template-columns: 1fr; /* Una sola columna */
+    }
+
+    /* 6. Formulario de Evaluación */
+    .evaluacion-container {
+        padding: 10px;
+        margin: 10px;
+    }
+}

@@ -1,99 +1,174 @@
+/* src/styles/pages/DashboardAnalista.css */
 
+/* 1. Contenedor Principal (Efecto Tarjeta) */
 .analista-dashboard {
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    background-color: white;
+    padding: 30px;
+    margin: 20px auto;
+    max-width: 1200px; /* Que no se estire infinito en pantallas grandes */
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* Sombra suave */
 }
 
+/* 2. Barra Superior (Título y Botón) */
 .header-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #f0f0f0;
+    margin-bottom: 30px;
     padding-bottom: 15px;
+    border-bottom: 2px solid #f0f2f5;
 }
 
 .header-bar h2 {
+    color: #1a1a2e;
+    font-size: 1.5rem;
     margin: 0;
-    color: #333;
 }
 
+/* 3. Botón de Reporte (CSV) */
 .btn-reporte {
-    background-color: #1a73e8;
+    background-color: #0056b3; /* Azul profesional */
     color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
     text-decoration: none;
-    font-weight: bold;
-    font-size: 14px;
-    transition: background-color 0.2s;
-}
-.btn-reporte:hover {
-    background-color: #1558b0;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background 0.3s ease;
+    display: inline-block;
 }
 
+.btn-reporte:hover {
+    background-color: #004494;
+}
+
+/* 4. Estilos de la Tabla Moderna */
 .solicitudes-table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate; /* Permite bordes redondeados */
+    border-spacing: 0;
+    margin-top: 10px;
 }
 
-.solicitudes-table th,
-.solicitudes-table td {
-    border: 1px solid #ddd;
-    padding: 12px 15px;
+/* Encabezados de la tabla */
+.solicitudes-table th {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    padding: 15px;
     text-align: left;
+    border-bottom: 2px solid #e9ecef;
+}
+
+/* Celdas del cuerpo */
+.solicitudes-table td {
+    padding: 15px;
+    border-bottom: 1px solid #f0f2f5;
+    color: #333;
+    font-size: 0.95rem;
     vertical-align: middle;
 }
 
-.solicitudes-table th {
-    background-color: #f8f9fa;
+/* Efecto Hover en las filas */
+.solicitudes-table tr:hover td {
+    background-color: #fcfcfc;
+}
+
+/* 5. ETIQUETAS DE ESTADO (Badges de Colores) */
+.estado-tag {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
     font-weight: 600;
-    color: #495057;
-}
-
-.solicitudes-table tr:nth-child(even) {
-    background-color: #fdfdfd;
-}
-
-.btn-evaluar {
-    background-color: #28a745;
-    color: white !important;
-    padding: 5px 10px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: bold;
     display: inline-block;
-    transition: background-color 0.2s;
+    text-align: center;
+    min-width: 90px;
 }
+
+/* Colores específicos por estado */
+.estado-tag.Pendiente {
+    background-color: #fff3cd;
+    color: #856404; /* Amarillo oscuro */
+}
+
+.estado-tag.En-Proceso {
+    background-color: #cce5ff;
+    color: #004085; /* Azul oscuro */
+}
+
+.estado-tag.Completado {
+    background-color: #d4edda;
+    color: #155724; /* Verde oscuro */
+}
+
+.estado-tag.Rechazado {
+    background-color: #f8d7da;
+    color: #721c24; /* Rojo oscuro */
+}
+
+/* 6. Botón de Acción "Evaluar" */
+.btn-evaluar {
+    background-color: #28a745; /* Verde éxito */
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: transform 0.2s;
+    display: inline-block;
+}
+
 .btn-evaluar:hover {
     background-color: #218838;
+    transform: translateY(-2px); /* Efecto de elevación */
+    box-shadow: 0 2px 5px rgba(40, 167, 69, 0.3);
 }
 
 .evaluado-label {
+    color: #adb5bd;
+    font-size: 0.85rem;
     font-style: italic;
-    color: #6c757d;
-    font-size: 13px;
 }
 
+/* --- RESPONSIVE (MÓVIL) INTEGRADO --- */
+/* Esto asegura que la tabla no rompa el diseño en celular */
+@media screen and (max-width: 768px) {
+    .analista-dashboard {
+        padding: 15px;
+        margin: 10px;
+        box-shadow: none; /* Quitamos sombra en móvil para ganar espacio */
+    }
 
-.estado-tag {
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: bold;
-    color: white;
-    text-transform: capitalize;
+    .header-bar {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+
+    .btn-reporte {
+        text-align: center;
+    }
+
+    /* Scroll horizontal para la tabla en móvil */
+    .analista-dashboard {
+        overflow-x: auto; 
+    }
 }
-.estado-tag.Pendiente {
-    background-color: #ffc107; /* Amarillo */
-    color: #333;
-}
-.estado-tag.En-Proceso {
-    background-color: #007bff; /* Azul */
-}
-.estado-tag.Completado {
-    background-color: #28a745; /* Verde */
+
+/* Esto asegura que el scroll sea suave y limpio */
+@media screen and (max-width: 768px) {
+    .analista-dashboard {
+        overflow-x: auto; /* Habilita el scroll */
+        -webkit-overflow-scrolling: touch; /* Scroll suave en iPhone */
+        padding-bottom: 10px; /* Espacio para que no se corte */
+    }
+
+    /* Evita que la tabla se rompa */
+    table {
+        min-width: 800px; /* Fuerza a la tabla a ser ancha */
+    }
 }

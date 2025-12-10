@@ -8,6 +8,7 @@ import Layout from './pages/Layout';
 import { Login, Register, RecoverPassword } from './pages';
 import DashboardRouter from './pages/DashboardRouter';
 import PaginaDeEvaluacion from './pages/PaginaDeEvaluacion';
+import CrearCliente from './pages/CrearCliente';
 
 
 import './App.css';
@@ -45,10 +46,22 @@ function App() {
               </ProtectedRoute>
             }
           />
+          {/* Dentro de ProtectedRoute y Layout */}
+          <Route
+            path="/crear-cliente"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <CrearCliente />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
 
           { }
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
+
         </Routes>
       </AuthProvider>
     </BrowserRouter>
