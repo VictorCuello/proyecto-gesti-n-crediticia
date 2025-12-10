@@ -1,0 +1,133 @@
+/* src/componentesCss/DashboardAsesor.css */
+
+/* --- Estilos para la PÁGINA DE PERFIL (BarraUsuario) --- */
+
+.page-container {
+    display: flex;
+    justify-content: center; /* Centrado horizontal */
+    align-items: flex-start; /* Alineado al inicio (arriba) */
+    padding: 40px;
+    min-height: 100vh;
+    background-color: var(--color-background);
+}
+
+.perfil-card-grande {
+    background-color: white;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 650px;
+    width: 100%;
+    text-align: center;
+}
+
+.profile-details-section {
+    text-align: left;
+    margin: 20px 0 30px;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+}
+
+.profile-details-section p {
+    margin: 8px 0;
+    font-size: 1.1em;
+}
+
+.actions-grid-BarraUsuario {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 30px;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 20px;
+}
+
+.btn-grande {
+    padding: 15px 30px;
+    font-size: 1.1em;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.1s;
+    flex-grow: 1;
+    min-width: 200px;
+}
+
+.btn-accion-principal {
+    background-color: var(--color-primary); /* Azul oscuro */
+    color: white;
+}
+.btn-accion-secundaria {
+    background-color: var(--color-secondary); /* Azul claro */
+    color: white;
+}
+
+.logout-button-grande {
+    background-color: var(--color-danger);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.solicitudes-pendientes-info {
+    font-size: 1.1em;
+    color: var(--color-text);
+    padding: 10px;
+    background-color: #fff3cd; /* Amarillo suave */
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    justify-content: center;
+}
+
+.badge-pending-grande {
+    background-color: var(--color-danger);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 1.1em;
+    font-weight: 700;
+    
+}
+
+.back-button-container {
+    /* Lo coloca arriba, a la izquierda, fuera del flujo normal del perfil */
+    margin-bottom: 25px; 
+    text-align: left;
+}
+
+.btn-volver {
+    /* Estilos base: parecido a los botones de acción, pero menos prominente */
+    padding: 8px 15px;
+    font-size: 0.95em;
+    font-weight: 500;
+    border: 1px solid var(--color-secondary); /* Borde azul para destacar */
+    background-color: transparent; /* Fondo transparente */
+    color: var(--color-secondary);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-volver:hover {
+    /* Efecto al pasar el ratón */
+    background-color: var(--color-secondary);
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 123, 255, 0.3);
+}
+
+.content-title {
+    /* Asegura que el título tenga espacio debajo del botón */
+    margin-top: 0;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e0e0e0;
+}

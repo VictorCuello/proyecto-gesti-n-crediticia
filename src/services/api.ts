@@ -1,4 +1,5 @@
-// API Configuration
+import type { ISolicitud } from '../types';
+
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
 // Types
@@ -20,6 +21,20 @@ interface LoginResponse {
   token: string;
 }
 
+interface ClientCreationResponse {
+    id: string; // Asumimos que la respuesta incluye la ID del cliente creado
+    nombre_completo: string;
+    // ... otros campos
+}
+
+// Tipo para los datos que se envían desde el formulario
+interface ClientCreationData {
+    nombre_completo: string;
+    documento_id: string;
+    info_adicional: string;
+    creado_por: string; // ID del asesor
+}
+
 interface RegisterResponse {
   user: {
     id: number;
@@ -29,6 +44,18 @@ interface RegisterResponse {
     fecha_creacion: string;
   };
   token: string;
+}
+
+interface ClienteData {
+    id: number;
+    nombre_completo: string;
+    documento_id: string;
+}
+
+interface SolicitudCreationData {
+    cliente_id: number;
+    asesor_id: number;
+    estado?: string; // Opcional si el backend lo maneja
 }
 
 // Token management
@@ -80,7 +107,43 @@ const apiFetch = async <T>(
     throw new Error('Error de conexión con el servidor');
   }
 };
+export const solicitudApi = {
+    
+    getClientes: async (): Promise<ApiResponse<ClienteData[]>> => {
+        // ⚠️ Asume que tu backend tiene esta ruta: GET /api/clientes
+        // Si tu backend devuelve un array directamente en 'data', usa esta ruta
+        return apiFetch<ClienteData[]>('/clientes', {
+            method: 'GET',
+        });
+    },
+    getSolicitudesByAsesor: async (
+        asesorId: string, // Se pasa el ID del asesor desde el Contexto
+        estadoFiltro: string | 'Todas' = 'Todas'
+    ): Promise<ApiResponse<ISolicitud[]>> => {
+        
+        let endpoint = `/solicitudes/asesor?asesorId=${asesorId}`;
 
+        if (estadoFiltro !== 'Todas') {
+            endpoint += `&estado=${estadoFiltro}`;
+        }
+        
+        // Asumimos que esta ruta está protegida y registrada en tu backend.
+        return apiFetch<ISolicitud[]>(endpoint, {
+            method: 'GET',
+        });
+    },
+
+    createSolicitud: async (
+        data: SolicitudCreationData
+    ): Promise<ApiResponse> => {
+        // ⚠️ Asume esta ruta en tu backend: POST /api/solicitudes/crear
+        return apiFetch('/solicitudes/crear', {
+            method: 'POST',
+            body: JSON.stringify(data),
+        });
+    }
+    
+};
 // Auth API functions
 export const authApi = {
   /**
@@ -163,6 +226,7 @@ export const authApi = {
   logout: (): void => {
     removeToken();
   },
+  
 
   /**
    * Verificar si hay un token almacenado
@@ -170,6 +234,20 @@ export const authApi = {
   hasToken: (): boolean => {
     return !!getToken();
   },
+};
+
+export const clientApi = {
+    createClient: async (
+        clientData: ClientCreationData
+    ): Promise<ApiResponse<ClientCreationResponse>> => {
+        // ⚠️ NOTA: Asume que tienes un endpoint en tu backend: POST /api/clientes/crear
+        return apiFetch<ClientCreationResponse>('/clientes/crear', {
+            method: 'POST',
+            body: JSON.stringify(clientData),
+        });
+    },
+
+    // Aquí puedes agregar otras funciones como getClient, updateClient, etc.
 };
 
 export { getToken, setToken, removeToken };

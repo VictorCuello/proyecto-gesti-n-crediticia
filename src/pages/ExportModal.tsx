@@ -3,11 +3,15 @@ import React, { useState } from 'react';
 import type {  ExportFilter, ExportFormat } from '../../asesor-consultas/src/types';
 
 interface ExportModalProps {
+    isOpen: boolean;
     onClose: () => void;
     onExportar: (filtro: ExportFilter,formato: ExportFormat) => void;
+    isExporting: boolean; 
+    exportError: string | null;
 }
 
-const ExportModal: React.FC<ExportModalProps> = ({ onClose, onExportar }) => {
+const ExportModal: React.FC<ExportModalProps> = ({ onClose, onExportar,isOpen,isExporting,exportError }) => {
+    if (!isOpen) return null
     const [filtro, setFiltro] = useState<ExportFilter>('Todas');
     const estadosExportables: ExportFilter[] = ['Todas', 'Pendiente', 'En Revisión', 'Aprobada', 'Negada'];
     const [formato, setFormato] = useState<ExportFormat>('CSV');

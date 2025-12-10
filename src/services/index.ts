@@ -1,1 +1,1 @@
-export { authApi, getToken, setToken, removeToken } from './api';
+export { authApi, getToken, setToken, removeToken,solicitudApi} from './api';

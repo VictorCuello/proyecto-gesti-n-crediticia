@@ -1,0 +1,94 @@
+/* src/styles/pages/CrearSolicitud.css */
+.page-container-centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: var(--color-background);
+}
+
+.form-card-solicitud {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 550px;
+    width: 100%;
+    text-align: left;
+}
+
+.content-title-secondary {
+    color: var(--color-primary);
+    font-size: 1.5em;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+.info-detalle-container {
+    background-color: #f7f9fc;
+    border-left: 4px solid var(--color-secondary);
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 5px;
+    font-size: 0.95em;
+}
+
+.nota {
+    font-style: italic;
+    color: #666;
+    margin-top: 10px;
+}
+
+.btn-submit-solicitud {
+    /* Color principal azul fuerte */
+    background-color: var(--color-primary, #0057b4); 
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.05em;
+    font-weight: 600;
+    transition: background-color 0.2s, box-shadow 0.2s;
+    min-width: 180px;
+}
+
+.btn-submit-solicitud:hover {
+    background-color: var(--color-dark-blue, #0056b3);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.btn-submit-solicitud:disabled {
+    background-color: #a0c3e8; /* Azul claro para deshabilitado */
+    cursor: not-allowed;
+}
+
+/* 2. Botón de Cancelar/Volver */
+.btn-cancel-volver-solicitud {
+    /* Estilo neutro para cancelar */
+    background-color: #e9ecef; 
+    color: #495057;
+    padding: 10px 25px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.05em;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.btn-cancel-volver-solicitud:hover {
+    background-color: #cfd8e1;
+}
+
+/* Estilos de inputs/selects (reutilizar tus clases form-input) */
+select.form-input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+}
+/* Reutiliza form-group, form-label, form-input, btn-submit y btn-cancel-volver */
+/* Asegúrate de que tu select tenga el estilo 'form-input' */

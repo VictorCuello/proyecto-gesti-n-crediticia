@@ -1,0 +1,72 @@
+/* src/styles/pages/CrearUsuario.css */
+
+.page-container-centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: var(--color-background); /* Usa tu fondo corporativo */
+}
+
+.crear-usuario-card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+.content-title-secondary {
+    color: var(--color-primary);
+    font-size: 1.5em;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+/* Reutiliza tus clases form-group, form-label, form-input de tu CSS principal */
+.user-form {
+    text-align: left;
+}
+
+.form-actions-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 25px;
+}
+
+.btn-submit {
+    /* Reutiliza tu estilo btn-submit (debería ser azul oscuro) */
+    background-color: var(--color-primary);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-cancel-volver {
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 20px;
+    width: 100%;
+    font-size: 0.9em;
+}
+
+.form-error-message {
+    color: var(--color-danger);
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+}

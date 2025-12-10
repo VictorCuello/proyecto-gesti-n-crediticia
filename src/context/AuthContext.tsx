@@ -5,7 +5,7 @@ import { authApi } from '../services/api';
 
 const AuthContext = createContext<IAuthContext | undefined>(undefined);
 
-export const useAuth = () => {
+ const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
@@ -17,7 +17,7 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<IUsuario | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -106,7 +106,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     login,
     logout,
     register,
-    isAuthenticated: !!user
+    isAuthenticated: !!user,
+    isLoading: isLoading
   };
 
   // Mostrar loading mientras se verifica el token
@@ -127,3 +128,5 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
+export default AuthProvider;
+export { useAuth };
